@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog - Mes Posts{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="text-center">Mes Posts</h2>
+        
+        <div class="row">
+            {% for post in posts %}
+            <div class="col-md-6 offset-md-3 mb-4">
+                <div class="card">
+                    {% if post.image %}
+                    <img src="{{ asset('uploads/images/' ~ post.image) }}" class="card-img-top" alt="Image du post">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.description }}</p>
+                        <p class="text-muted">Publié le {{ post.createdAt|date("d/m/Y") }}</p>
+                        <button class="btn btn-primary">Commenter</button>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-center">Aucun post disponible pour le moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

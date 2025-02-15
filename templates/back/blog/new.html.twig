@@ -1,0 +1,37 @@
+{% extends 'baseback.html.twig' %}
+
+{% block title %}Créer un nouveau post{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="mb-4">Créer un nouveau post</h1>
+
+    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+        <div class="mb-3">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+            {% for error in form.title.vars.errors %}
+                <div class="text-danger">{{ error.message }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+            {% for error in form.description.vars.errors %}
+                <div class="text-danger">{{ error.message }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.imageFile) }}
+            {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+            {% for error in form.imageFile.vars.errors %}
+                <div class="text-danger">{{ error.message }}</div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

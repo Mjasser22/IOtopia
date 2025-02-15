@@ -1,0 +1,312 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Derniers articles{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="text-center"><i class="fa-solid fa-newspaper"></i> Derniers articles</h1>
+
+    <a href="{{ path('app_post_new') }}" class="btn btn-success mb-3">
+        <i class="fas fa-plus"></i> Ajouter un Post
+    </a>
+
+    <div class="row">
+        {% for post in posts %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-lg h-100">
+                    <img src="{{ asset('images/' ~ post.image) }}" class="card-img-top" alt="Post Image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary"><span>Titre :</span>{{ post.title }}</h5>
+                        <p class="text-muted">
+                        {% if post.isItYours==true %}
+                                  <i class="fa fa-user"></i> Vous<br>
+                        {% else %}
+                            <i class="fa fa-user"></i> {{ post.user.firstname }} {{ post.user.lastname }}<br>
+                         {% endif%}
+                            <i class="fa fa-calendar"></i> {{ post.createdAt|date('d M Y H:i') }}
+                        </p>
+                        <p class="card-text flex-grow-1">
+                            {{ post.description ? post.description|slice(0, 100) ~ '...' : 'Pas de description disponible.' }}
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#postModal{{ post.id }}">Lire la suite...</a>
+                        </p>
+
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <div>
+                                <!-- Bouton Voir qui ouvre le modal -->
+                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#postModal{{ post.id }}">
+                                    <i class="fa-solid fa-eye"></i> Voir
+                                </button>
+                            {% if post.isItYours==true %}
+                                <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-warning btn-sm">
+                                    <i class="fa-solid fa-pencil"></i> Modifier
+                                </a>
+
+                                <form method="post" action="{{ path('app_post_delete', {'id': post.id}) }}" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce post ?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fa-solid fa-trash"></i> Supprimer
+                                    </button>
+                                </form>
+                                {% endif%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de Détails du Post -->
+            <div class="modal fade" id="postModal{{ post.id }}" tabindex="-1" aria-labelledby="postModalLabel{{ post.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-success" id="postModalLabel{{ post.id }}">
+                                Titre : <span style="padding-left: 120px;"></span>{{ post.title }}
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="{{ asset('images/' ~ post.image) }}" class="img-fluid rounded mb-3" alt="Post Image">
+                            <p><strong>Date:</strong> {{ post.createdAt|date('d M Y H:i') }}</p>
+                               {% if post.isItYours==true %}
+                                  <strong>Utulisateur:</strong> Vous</p>
+                            {% else %}
+                                <strong>Utulisateur:</strong> {{ post.user.firstname }} {{ post.user.lastname }}</p>
+                            {% endif%}
+                            <strong>Description:</strong><br>
+                            <p>{{ post.description ? post.description : 'Pas de description disponible.' }}</p>
+                        </div>
+
+
+                                        <!-- Section des Commentaires -->
+                        <div class="mt-4" style="padding-left: 20px; padding-right:20px;">
+                            <h5><i class="fa-solid fa-comments"></i> Commentaires</h5>
+                            {% if post.comments is empty %}
+                                <p class="text-muted">Aucun commentaire pour ce post.</p>
+                            {% else %}
+                                <ul class="list-unstyled">
+                                    {% for comment in post.comments %}
+                                        <li class="d-flex align-items-start mb-3 p-2 border rounded shadow-sm bg-white">
+                                            <!-- Avatar avec initiale -->
+                                            <div class="avatar bg-black text-white rounded-circle d-flex align-items-center justify-content-center me-3"   style="margin-right:5px;"
+                                                style="width: 45px; height: 45px; font-size: 18px; font-weight: bold;">
+                                                  {% if comment.user and comment.user.firstname is not empty %}
+                                                    {{ comment.user.firstname|first|upper }}
+                                                {% else %}
+                                                    ?
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="flex-grow-1">
+                                                <strong>{{ comment.user.firstname }} {{ comment.user.lastname }}</strong>
+                                                <p class="mb-1 comment-content" id="comment-text-{{ comment.id }}">{{ comment.content }}</p>
+                                                <small class="text-muted">{{ comment.createdAt|date('d M Y H:i') }}</small>
+                                                
+                                                <!-- Mode édition caché par défaut -->
+                                              <div class="d-none" id="edit-form-{{ comment.id }}">
+                                                    <textarea class="form-control mb-2" id="edit-text-{{ comment.id }}">{{ comment.content }}</textarea>
+                                                    <div class="invalid-feedback" id="error-feedback-{{ comment.id }}">
+                                                        <!-- Les erreurs s'afficheront ici -->
+                                                    </div>
+                                                    <button class="btn btn-success btn-sm" onclick="saveEdit({{ comment.id }})">
+                                                        <i class="fa-solid fa-check"></i> Enregistrer
+                                                    </button>
+                                                    <button class="btn btn-secondary btn-sm" onclick="cancelEdit({{ comment.id }})">
+                                                        <i class="fa-solid fa-times"></i> Annuler
+                                                    </button>
+                                                </div>
+
+                                                
+                                                <!-- Boutons Modifier/Supprimer si c'est son commentaire -->
+                                                {% if comment.isMine %}
+                                                    <div class="text-end mt-1">
+                                                        <button class="btn btn-warning btn-sm" onclick="editComment({{ comment.id }})">
+                                                            <i class="fa-solid fa-pencil"></i> Modifier
+                                                        </button>
+                                                        <button class="btn btn-danger btn-sm" onclick="deleteComment({{ comment.id }})">
+                                                            <i class="fa-solid fa-trash"></i> Supprimer
+                                                        </button>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                     <form id="comment-form-{{ post.id }}" class="mt-3" style="padding-left: 20px; padding-right:20px;">
+                        <input type="hidden" name="post_id" value="{{ post.id }}">
+                        <div class="mb-2">
+                            <textarea class="form-control" id="comment-content-{{ post.id }}" rows="2" placeholder="Ajouter un commentaire..."></textarea>
+                            <div class="invalid-feedback" id="comment-error-{{ post.id }}"></div>
+                        </div>
+                        <button type="submit" class="btn btn-dark"><i class="fa-solid fa-paper-plane"></i> Publier</button>
+                    </form>
+
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+            <div class="col-12 text-center">
+                <p class="text-muted">Aucun post disponible.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("form[id^='comment-form-']").forEach(form => {
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+            let postId = this.getAttribute("id").replace("comment-form-", "");
+            let content = document.getElementById(`comment-content-${postId}`).value;
+            let errorDiv = document.getElementById(`comment-error-${postId}`);
+            let textArea = document.getElementById(`comment-content-${postId}`);
+
+            textArea.classList.remove("is-invalid");
+             errorDiv.innerHTML = "";
+            fetch(`/comment/create`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ post_id: postId, content: content })
+            })
+            .then(response => response.json())
+            .then(data => {
+               
+                if (data.success) {
+                    
+                    location.reload();
+                   
+                } else {
+                    textArea.classList.add("is-invalid");
+                    errorDiv.innerHTML = `<p>${data.message}</p>`; // Affichage du message d'erreur si succès est false
+                }
+            })
+            .catch(error => {
+                errorDiv.innerHTML = "<p>Erreur de connexion au serveur.</p>"; // Affichage d'une erreur de connexion
+            });
+        });
+    });
+});
+
+function deleteComment(commentId, postId) {
+    fetch(`/comment/delete/${commentId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert("Erreur: " + data.message);
+        }
+    })
+    .catch(error => {
+        alert("Erreur réseau lors de la suppression du commentaire.");
+    });
+}
+
+
+    function editComment(commentId) {
+    document.getElementById(`comment-text-${commentId}`).classList.add("d-none");
+    document.getElementById(`edit-form-${commentId}`).classList.remove("d-none");
+}
+
+function cancelEdit(commentId) {
+    document.getElementById(`edit-form-${commentId}`).classList.add("d-none");
+    document.getElementById(`comment-text-${commentId}`).classList.remove("d-none");
+}
+
+function saveEdit(commentId) {
+    let textArea = document.getElementById(`edit-text-${commentId}`);
+    let feedbackDiv = document.getElementById(`error-feedback-${commentId}`);
+    let newText = textArea.value;
+
+    // Réinitialiser les messages d'erreur
+    feedbackDiv.innerHTML = "";
+    textArea.classList.remove("is-invalid");
+
+    fetch(`/comment/edit/${commentId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: newText })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Mettre à jour le texte du commentaire affiché
+            document.getElementById(`comment-text-${commentId}`).textContent = data.newContent;
+            cancelEdit(commentId);
+        } else {
+            // Afficher l'erreur sous le champ
+            feedbackDiv.innerHTML = `<p>${data.message}</p>`;
+            textArea.classList.add("is-invalid");
+        }
+    })
+    .catch(error => {
+        console.error("Erreur réseau :", error);
+        feedbackDiv.innerHTML = "<p>Erreur de connexion au serveur.</p>";
+        textArea.classList.add("is-invalid");
+    });
+}
+
+
+    
+</script>
+
+<style>
+.text-end.mt-1 {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+.btn-primary:hover {
+    background-color: #003580;
+    transition: 0.3s;
+}
+.modal-header {
+    background-color: black;
+    color: #fff;
+}
+
+.modal-body img {
+    border-radius: 10px;
+    max-height: 300px;
+    object-fit: cover;
+}
+
+.comment-content {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+.invalid-feedback {
+    display: block;
+    color: red; /* Exemple de couleur */
+}
+
+</style>
+<!-- Inclusion des scripts Bootstrap pour le bon fonctionnement des modales -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}
