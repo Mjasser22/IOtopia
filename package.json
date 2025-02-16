@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "jquery": "^3.7.1",
+    "normalize.css": "^8.0.1"
+  },
+  "devDependencies": {
+    "@symfony/webpack-encore": "^1.0",
+    "stimulus": "^3.2.2",
+    "webpack": "^5.0",
+    "webpack-cli": "^4.0",
+    "webpack-notifier": "^1.15.0"
+  },
+  "scripts": {
+    "dev": "encore dev",
+    "dev-server": "encore dev --watch",
+    "build": "encore production"
+  }
+}

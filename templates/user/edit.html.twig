@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block body %}
+    <h1>Edit User</h1>
+
+    <form method="post">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ form_widget(form.email) }}</td>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <td>{{ form_widget(form.password) }}</td>
+                </tr>
+                <tr>
+                    <th>Roles</th>
+                    <td>{{ form_widget(form.roles) }}</td>
+                </tr>
+                <tr>
+                    <th>Is Verified</th>
+                    <td>{{ form_widget(form.isVerified) }}</td>
+                </tr>
+                <tr>
+                    <th>User Type</th>
+                    <td>{{ form_widget(form.userType) }}</td>
+                </tr>
+                <tr>
+                    <th>Firstname</th>
+                    <td>{{ form_widget(form.firstname) }}</td>
+                </tr>
+                <tr>
+                    <th>Lastname</th>
+                    <td>{{ form_widget(form.lastname) }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        <a href="{{ path('app_user_index') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+
+    {{ form_rest(form) }}
+{% endblock %}

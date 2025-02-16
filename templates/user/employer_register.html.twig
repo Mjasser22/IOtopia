@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register as Employer{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Register as an Employer</h1>
+
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    
+    <div class="mb-3">
+        {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.email) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.password, 'Password', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.password) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.firstname, 'First Name', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.firstname) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.lastname, 'Last Name', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.lastname) }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register as Employer</button>
+
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_user_index') }}" class="btn btn-secondary mt-3">Back to list</a>
+</div>
+{% endblock %}

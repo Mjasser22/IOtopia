@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+    <h1>User index</h1>
+
+    <div class="row">
+        {% for user in users %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                    <!-- Display user image if it exists -->
+                        {% if user.image %}
+                            <img src="{{ asset('uploads/' ~ user.image) }}" class="card-img-top" alt="User image">
+                        {% else %}
+                            <img src="{{ asset('images/default-user.jpg') }}" class="card-img-top" alt="Default user image">
+                        {% endif %}
+                        <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ user.email }}</h6>
+                          
+                        <p class="card-text">
+                            <strong>ID:</strong> {{ user.id }}<br>
+                            <strong>Roles:</strong> {{ user.roles ? user.roles|json_encode : '' }}<br>
+                            <strong>Verified:</strong> {{ user.isVerified ? 'Yes' : 'No' }}<br>
+                            <strong>User Type:</strong> {{ user.userType }}<br>
+                        </p>
+                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ path('app_user_show', {'id': user.id}) }}'">Show</button>
+                        <button type="button" class="btn btn-success" onclick="window.location.href='{{ path('app_user_edit', {'id': user.id}) }}'">Edit</button>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <p>No records found</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <a href="{{ path('app_employee_register') }}" class="btn btn-primary mt-3">Create new</a>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Register</h1>
+{{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}    
+        <div class="mb-3">
+            {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(registrationForm.email) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(registrationForm.plainPassword) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(registrationForm.firstname, 'First Name', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(registrationForm.firstname, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(registrationForm.firstname) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(registrationForm.lastname, 'Last Name', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(registrationForm.lastname, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(registrationForm.lastname) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(registrationForm.userType, 'Role', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(registrationForm.userType) }}  
+            {{ form_errors(registrationForm.userType) }}
+        </div>
+
+        <div class="mb-3 form-check">
+            {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+            {{ form_label(registrationForm.agreeTerms, 'I agree to the terms and conditions', {'label_attr': {'class': 'form-check-label'}}) }}
+            {{ form_errors(registrationForm.agreeTerms) }}
+        </div>
+
+        <button type="submit" class="btn btn-success">Register</button>
+    {{ form_end(registrationForm) }}
+</div>
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">{{ message }}</div>
+{% endfor %}
+
+{% endblock %}
+
