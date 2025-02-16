@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SoinDesAnimaux index{% endblock %}
+
+{% block body %}
+    <h1>SoinDesAnimaux index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Start_date</th>
+                <th>Duration</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for soin_des_animaux in soin_des_animauxes %}
+            <tr>
+                <td>{{ soin_des_animaux.id }}</td>
+                <td>{{ soin_des_animaux.Description }}</td>
+                <td>{{ soin_des_animaux.startDate ? soin_des_animaux.startDate|date('Y-m-d') : '' }}</td>
+                <td>{{ soin_des_animaux.duration }}</td>
+                <td>
+                    <a href="{{ path('app_soin_des_animaux_show', {'id': soin_des_animaux.id}) }}">show</a>
+                    <a href="{{ path('app_soin_des_animaux_edit', {'id': soin_des_animaux.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_soin_des_animaux_new') }}">Create new</a>
+{% endblock %}

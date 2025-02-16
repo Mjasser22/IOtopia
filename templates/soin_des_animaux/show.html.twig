@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SoinDesAnimaux{% endblock %}
+
+{% block body %}
+    <h1>SoinDesAnimaux</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ soin_des_animaux.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ soin_des_animaux.Description }}</td>
+            </tr>
+            <tr>
+                <th>Start_date</th>
+                <td>{{ soin_des_animaux.startDate ? soin_des_animaux.startDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ soin_des_animaux.duration }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_soin_des_animaux_index') }}">back to list</a>
+
+    <a href="{{ path('app_soin_des_animaux_edit', {'id': soin_des_animaux.id}) }}">edit</a>
+
+    {{ include('soin_des_animaux/_delete_form.html.twig') }}
+{% endblock %}

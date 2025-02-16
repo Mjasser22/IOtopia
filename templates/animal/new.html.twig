@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un nouvel animal{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white text-center">
+                    <h2><i class="fa-solid fa-pen"></i> Créer un nouvel animal</h2>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+                    <!-- Nom -->
+                    <div class="form-group mb-3">
+                        {{ form_label(form.name) }}
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control' ~ (form.name.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.name) }}
+                        </div>
+                    </div>
+
+                    <!-- Espèce -->
+                    <div class="form-group mb-3">
+                        {{ form_label(form.species) }}
+                        {{ form_widget(form.species, {'attr': {'class': 'form-control' ~ (form.species.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.species) }}
+                        </div>
+                    </div>
+
+                    <!-- Âge -->
+                    <div class="form-group mb-3">
+                        {{ form_label(form.age) }}
+                        {{ form_widget(form.age, {'attr': {'class': 'form-control' ~ (form.age.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.age) }}
+                        </div>
+                    </div>
+
+                    <!-- État de santé -->
+                    <div class="form-group mb-3">
+                        {{ form_label(form.healthStatus) }}
+                        {{ form_widget(form.healthStatus, {'attr': {'class': 'form-select' ~ (form.healthStatus.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.healthStatus) }}
+                        </div>
+                    </div>
+
+                    <!-- Boutons -->
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="{{ path('app_animal_index') }}" class="btn btn-secondary">
+                            <i class="fa-solid fa-arrow-left"></i> Retour à la liste
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa-solid fa-save"></i> Sauvegarder
+                        </button>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
