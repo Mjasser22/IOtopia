@@ -77,30 +77,6 @@ final class ProduitController extends AbstractController
     }
 
     /**
-     * @Route("/produit/{id}/commentaires", name="produit_commentaires", methods={"GET"})
-     */
-    #[Route('/{id}/commentaires', name: 'app_produit_commentaires', methods: ['GET'])]
-    public function getCommentaires(Produit $produit, CommentaireRepository $commentaireRepository): JsonResponse
-    {
-        $commentaires = $commentaireRepository->findBy(['produit' => $produit]);
-
-        $data = [];
-        foreach ($commentaires as $commentaire) {
-            $data[] = [
-                'id' => $commentaire->getId(),
-                'contenu' => $commentaire->getContenu(),
-                'date' => $commentaire->getCreatedAt()->format('Y-m-d H:i:s'),
-                'auteur' => [
-                    'username' => $commentaire->getAuteur() ? $commentaire->getAuteur()->getUsername() : 'Anonymous',
-                    'image' => '/images/img2.jpg',
-                ],
-            ];
-        }
-
-        return new JsonResponse($data);
-    }
-
-    /**
      * @Route("/produit/{id}/commentaires/add", name="produit_add_commentaire", methods={"POST"})
      */
     #[Route('/{id}/commentaires/add', name: 'app_add_produit_commentaire', methods: ['POST'])]
@@ -161,9 +137,10 @@ final class ProduitController extends AbstractController
     }
 
     // Helper method to serialize replies recursively
-    private function serializeReplies(Collection $replies): array
+    private function serializeReplies(iterable $replies): array
     {
         $serializedReplies = [];
+
         foreach ($replies as $reply) {
             $serializedReplies[] = [
                 'id' => $reply->getId(),
@@ -173,11 +150,13 @@ final class ProduitController extends AbstractController
                     'image' => $reply->getAuteur()->getImage(),
                 ],
                 'createdAt' => $reply->getCreatedAt()->format('Y-m-d H:i'),
-                'replies' => $this->serializeReplies($reply->getReplies()),
+                'replies' => $this->serializeReplies($reply->getReplies()), // Recursively serialize nested replies
             ];
         }
+
         return $serializedReplies;
     }
+
 
 
     #[Route('/{id}', name: 'app_produit_show', methods: ['GET'])]

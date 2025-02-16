@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+
 use App\Entity\Commentaire;
 use App\Form\CommentaireType;
 use App\Repository\CommentaireRepository;
@@ -10,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/commentaire')]
 final class CommentaireController extends AbstractController
@@ -24,7 +27,7 @@ final class CommentaireController extends AbstractController
 
     // src/Controller/CommentaireController.php
 
-    #[Route('/commentaires/{id}/reply', name: 'app_commentaire_reply', methods: ['POST'])]
+    #[Route('/{id}/reply', name: 'app_commentaire_reply', methods: ['POST'])]
     public function reply(Request $request, Commentaire $parentComment, EntityManagerInterface $entityManager): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -34,12 +37,14 @@ final class CommentaireController extends AbstractController
             return new JsonResponse(["success" => false, "error" => "Reply content is required"], 400);
         }
 
+        $user = $entityManager->getRepository(User::class)->find(3);
+
         // Create the reply
         $reply = new Commentaire();
         $reply->setContenu($data['contenu']);
-        $reply->setParent($parentComment); // Set the parent comment
-        $reply->setAuteur($this->getUser()); // Set the current user as the author
-        $reply->setProduit($parentComment->getProduit()); // Associate with the same product
+        $reply->setParent($parentComment);
+        $reply->setAuteur($user);
+        $reply->setProduit($parentComment->getProduit());
 
         // Save the reply
         $entityManager->persist($reply);

@@ -108,7 +108,7 @@
 
 <script>
   function fetchCommentaires(produitId) {
-    fetch(`/produit/${produitId}/commentaires`)
+    fetch(`/produit/${produitId}/comments`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch comments.");
@@ -117,7 +117,7 @@
       })
       .then((data) => {
         const commentList = document.getElementById("commentList");
-        commentList.innerHTML = "";
+        commentList.innerHTML = ""; // Clear existing comments
 
         if (data.error) {
           commentList.innerHTML = `<p style="color:red;">Error: ${data.error}</p>`;
@@ -129,25 +129,9 @@
           return;
         }
 
-        data.forEach((comment) => {
-          const commentDiv = document.createElement("div");
-          commentDiv.classList.add("comment");
-          commentDiv.innerHTML = `
-                    <img src="${comment.auteur.image}" class="comment-avatar" alt="User Avatar" />
-                    <div class="comment-content">
-                        <strong>${comment.auteur.username}</strong>
-                        <p>${comment.contenu}</p>
-                        <small>${comment.date}</small>
-                        <button class="reply-button" onclick="toggleReplyBox(${comment.id})">Repondre</button>
-                    </div>
-                    <div class="comment-actions">
-                        <span class="dots">&#8942;</span>
-                        <div class="menu">
-                            <button onclick="editComment(${comment.id})">Edit</button>
-                            <button onclick="deleteComment(${comment.id})">Delete</button>
-                        </div>
-                    </div>
-                `;
+        // Render comments and their replies
+        data.comments.forEach((comment) => {
+          const commentDiv = createCommentElement(comment);
           commentList.appendChild(commentDiv);
         });
 
@@ -174,27 +158,112 @@
       });
   }
 
-  function toggleReplyBox(commentId) {
-    const replyBox = document.createElement("div");
-    replyBox.classList.add("reply-box");
-    replyBox.innerHTML = `
-        <textarea placeholder="Write a reply..."></textarea>
-        <button onclick="submitReply(${commentId})">Post Reply</button>
-    `;
-    const commentDiv = document.querySelector(
-      `.comment[data-comment-id="${commentId}"]`
-    );
-    commentDiv.appendChild(replyBox);
+  // Helper function to create a comment element
+  function createCommentElement(comment) {
+    const commentDiv = document.createElement("div");
+    commentDiv.classList.add("comment");
+    commentDiv.setAttribute("data-comment-id", comment.id);
+
+    // Check if there are replies
+    const hasReplies = comment.replies && comment.replies.length > 0;
+
+    commentDiv.innerHTML = `
+    <img src="${
+      comment.auteur.image
+    }" class="comment-avatar" alt="User Avatar" />
+    <div class="comment-content">
+      <strong>${comment.auteur.username}</strong>
+      <p>${comment.contenu}</p>
+      <small>${comment.createdAt}</small>
+      <button class="reply-button" onclick="toggleReplyBox(${
+        comment.id
+      })">Repondre</button>
+      ${
+        hasReplies
+          ? `<span class="view-replies" onclick="toggleReplies(${comment.id})">Voir ${comment.replies.length} réponses</span>`
+          : ""
+      }
+    </div>
+    <div id="replies-${
+      comment.id
+    }" class="replies-container" style="display: none;">
+      ${comment.replies
+        .map(
+          (reply) => `
+        <div class="reply">
+          <img src="${reply.auteur.image}" class="reply-avatar" alt="User Avatar" />
+          <div class="reply-content">
+            <strong>${reply.auteur.username}</strong>
+            <p>${reply.contenu}</p>
+            <small>${reply.createdAt}</small>
+          </div>
+        </div>
+      `
+        )
+        .join("")}
+    </div>
+  `;
+
+    return commentDiv;
   }
 
+  function toggleReplies(commentId) {
+    const repliesContainer = document.getElementById(`replies-${commentId}`);
+    const viewRepliesSpan = document.querySelector(
+      `[data-comment-id="${commentId}"] .view-replies`
+    );
+
+    if (repliesContainer && viewRepliesSpan) {
+      if (repliesContainer.style.display === "none") {
+        repliesContainer.style.display = "block";
+        viewRepliesSpan.textContent = "Masquer les réponses";
+      } else {
+        repliesContainer.style.display = "none";
+        viewRepliesSpan.textContent = `Voir ${repliesContainer.children.length} réponses`;
+      }
+    }
+  }
+
+  // Toggle Reply Box Visibility
+  function toggleReplyBox(commentId) {
+    // Hide all other reply boxes
+    document.querySelectorAll(".reply-box").forEach((box) => {
+      if (box.id !== `replyBox-${commentId}`) {
+        box.style.display = "none";
+      }
+    });
+
+    // Toggle the selected reply box
+    const replyBox = document.getElementById(`replyBox-${commentId}`);
+    if (replyBox) {
+      replyBox.style.display =
+        replyBox.style.display === "none" ? "block" : "none";
+    }
+  }
+
+  // Submit a reply
   function submitReply(commentId) {
     const replyText = document.querySelector(
-      `.comment[data-comment-id="${commentId}"] .reply-box textarea`
+      `#replyBox-${commentId} textarea`
     ).value;
     if (replyText.trim() !== "") {
-      // Implement the logic to submit the reply
-      console.log("Submitting reply:", replyText, "for comment ID:", commentId);
-      // You can send the reply to the server and update the UI accordingly
+      fetch(`/commentaire/${commentId}/reply`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ contenu: replyText }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            // Reload comments after posting a reply
+            fetchCommentaires(currentProductId);
+          } else {
+            alert("Failed to post reply: " + data.error);
+          }
+        })
+        .catch((error) => console.error("Error submitting reply:", error));
     }
   }
 
@@ -208,11 +277,6 @@
     console.log("Delete comment:", commentId);
   }
 
-  // Fetch comments when the page loads
-  document.addEventListener("DOMContentLoaded", () => {
-    const produitId = 1; // Replace with the actual produit ID dynamically
-    fetchCommentaires(produitId);
-  });
   // Fetch products by category
   document.querySelectorAll('input[name="category"]').forEach((radio) => {
     radio.addEventListener("change", function () {
@@ -819,6 +883,97 @@
 
   .reply-box button:hover {
     background: #135cb0;
+  }
+  .comment {
+    position: relative;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .comment-content {
+    margin-bottom: 10px;
+  }
+
+  .reply-box {
+    margin-top: 10px;
+    padding-left: 50px; /* Indent to align with the comment */
+    display: none; /* Hidden by default */
+  }
+
+  .reply-box textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    resize: none;
+    font-size: 14px;
+  }
+
+  .submit-icon {
+    color: var(--secondary-color);
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.3s ease;
+    margin-left: 10px;
+  }
+
+  .submit-icon:hover {
+    color: #135cb0;
+  }
+  /* Replies Container */
+  .replies-container {
+    margin-top: 10px;
+    padding-left: 50px; /* Indent to align with the comment */
+  }
+
+  .reply {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .reply-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+
+  .reply-content {
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 8px;
+    flex: 1;
+  }
+
+  .reply-content strong {
+    display: block;
+    font-size: 12px;
+    color: #1877f2;
+  }
+
+  .reply-content p {
+    margin: 5px 0;
+    font-size: 12px;
+  }
+
+  .reply-content small {
+    color: gray;
+    font-size: 10px;
+  }
+
+  /* View Replies Link */
+  .view-replies {
+    color: #1877f2;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 10px;
+    font-weight: bold;
+  }
+
+  .view-replies:hover {
+    text-decoration: underline;
   }
 </style>
 {% endblock %}
