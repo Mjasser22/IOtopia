@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %} {% block title %}Produit{% endblock %} {% block
+body %}
+<h1>Produit</h1>
+
+<img
+  src="{{ asset(produit.picture) }}"
+  alt="{{ produit.nom }}"
+  style="max-width: 100%; height: auto"
+/>
+<h1>{{ produit.nom }}</h1>
+<p>{{ produit.description }}</p>
+<p><strong>Price:</strong> {{ produit.prix }} DT</p>
+<p><strong>Quantity:</strong> {{ produit.quantite }}</p>
+
+{{ include("produit/_delete_form.html.twig") }}
+{% endblock %}

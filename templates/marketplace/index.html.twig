@@ -1,0 +1,824 @@
+{% extends 'base.html.twig' %} {% block body %}
+<div class="marketplace-container">
+  <!-- Left Side: Categories -->
+  <div class="categories-section">
+    <h3>Categories</h3>
+    <form id="categories-form">
+      {% for category in categories %}
+      <div class="category-item">
+        <input
+          type="radio"
+          id="category-{{ category.id }}"
+          name="category"
+          value="{{ category.id }}"
+        />
+        <label for="category-{{ category.id }}">{{ category.nom }}</label>
+      </div>
+      {% endfor %}
+    </form>
+    <!-- Vendre Button -->
+    <div class="vendre-container">
+      <a href="/produit/new" class="vendre-button">
+        <i class="fas fa-plus-circle"></i> Vendre
+      </a>
+    </div>
+  </div>
+
+  <!-- Right Side: Products -->
+  <div class="products-section">
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Search for products..."
+      />
+      <button id="search-button">Search</button>
+    </div>
+    <div class="sorting-section">
+      <label for="sort-by">Sort By:</label>
+      <select id="sort-by">
+        <option value="">Default</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+      </select>
+    </div>
+    <div id="product-list" class="product-list">
+      <p class="empty-state">
+        Please select a category or search for products.
+      </p>
+    </div>
+    <div
+      id="loading-spinner"
+      style="display: none; text-align: center; margin: 20px"
+    >
+      <i
+        class="fas fa-spinner fa-spin"
+        style="font-size: 2rem; color: #6f9c40"
+      ></i>
+    </div>
+  </div>
+  <div id="productPopup" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeProductPopup()">&times;</span>
+      <div class="product-popup-container">
+        <div class="product-popup-image">
+          <img id="popupProductImage" src="" alt="Product Image" />
+        </div>
+        <div class="product-popup-details">
+          <h2 id="popupProductName"></h2>
+          <p id="popupProductDescription"></p>
+          <p><strong>Price:</strong> <span id="popupProductPrice"></span> DT</p>
+          <p>
+            <strong>Quantity:</strong> <span id="popupProductQuantity"></span>
+          </p>
+        </div>
+      </div>
+      <hr />
+      <div class="comment-section">
+        <h3>Comments</h3>
+
+        <!-- Comment Input Box -->
+        <div class="comment-box">
+          <img
+            src="{{ app.user ? app.user.image : 'images/img2.jpg' }}"
+            class="user-avatar"
+            alt="User Avatar"
+          />
+          <div class="input-container">
+            <textarea
+              id="commentInput"
+              placeholder="Write a comment..."
+            ></textarea>
+            <i
+              class="fas fa-paper-plane submit-icon"
+              onclick="submitComment()"
+            ></i>
+          </div>
+        </div>
+
+        <!-- Comment List -->
+        <div id="commentList" class="comment-list">
+          <p>Loading comments...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function fetchCommentaires(produitId) {
+    fetch(`/produit/${produitId}/commentaires`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch comments.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const commentList = document.getElementById("commentList");
+        commentList.innerHTML = "";
+
+        if (data.error) {
+          commentList.innerHTML = `<p style="color:red;">Error: ${data.error}</p>`;
+          return;
+        }
+
+        if (data.message) {
+          commentList.innerHTML = `<p>${data.message}</p>`;
+          return;
+        }
+
+        data.forEach((comment) => {
+          const commentDiv = document.createElement("div");
+          commentDiv.classList.add("comment");
+          commentDiv.innerHTML = `
+                    <img src="${comment.auteur.image}" class="comment-avatar" alt="User Avatar" />
+                    <div class="comment-content">
+                        <strong>${comment.auteur.username}</strong>
+                        <p>${comment.contenu}</p>
+                        <small>${comment.date}</small>
+                        <button class="reply-button" onclick="toggleReplyBox(${comment.id})">Repondre</button>
+                    </div>
+                    <div class="comment-actions">
+                        <span class="dots">&#8942;</span>
+                        <div class="menu">
+                            <button onclick="editComment(${comment.id})">Edit</button>
+                            <button onclick="deleteComment(${comment.id})">Delete</button>
+                        </div>
+                    </div>
+                `;
+          commentList.appendChild(commentDiv);
+        });
+
+        // Add event listeners for the three-dot menus
+        document.querySelectorAll(".comment-actions .dots").forEach((dots) => {
+          dots.addEventListener("click", function (event) {
+            event.stopPropagation();
+            const actions = this.parentElement;
+            actions.classList.toggle("active");
+          });
+        });
+
+        // Close the menu when clicking outside
+        document.addEventListener("click", function () {
+          document.querySelectorAll(".comment-actions").forEach((actions) => {
+            actions.classList.remove("active");
+          });
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching comments:", error);
+        document.getElementById("commentList").innerHTML =
+          "<p style='color:red;'>Error loading comments.</p>";
+      });
+  }
+
+  function toggleReplyBox(commentId) {
+    const replyBox = document.createElement("div");
+    replyBox.classList.add("reply-box");
+    replyBox.innerHTML = `
+        <textarea placeholder="Write a reply..."></textarea>
+        <button onclick="submitReply(${commentId})">Post Reply</button>
+    `;
+    const commentDiv = document.querySelector(
+      `.comment[data-comment-id="${commentId}"]`
+    );
+    commentDiv.appendChild(replyBox);
+  }
+
+  function submitReply(commentId) {
+    const replyText = document.querySelector(
+      `.comment[data-comment-id="${commentId}"] .reply-box textarea`
+    ).value;
+    if (replyText.trim() !== "") {
+      // Implement the logic to submit the reply
+      console.log("Submitting reply:", replyText, "for comment ID:", commentId);
+      // You can send the reply to the server and update the UI accordingly
+    }
+  }
+
+  function editComment(commentId) {
+    // Implement edit functionality
+    console.log("Edit comment:", commentId);
+  }
+
+  function deleteComment(commentId) {
+    // Implement delete functionality
+    console.log("Delete comment:", commentId);
+  }
+
+  // Fetch comments when the page loads
+  document.addEventListener("DOMContentLoaded", () => {
+    const produitId = 1; // Replace with the actual produit ID dynamically
+    fetchCommentaires(produitId);
+  });
+  // Fetch products by category
+  document.querySelectorAll('input[name="category"]').forEach((radio) => {
+    radio.addEventListener("change", function () {
+      const categoryId = this.value;
+      const sortBy = document.getElementById("sort-by").value; // Get the selected sorting option
+      fetchProductsByCategory(categoryId, sortBy);
+    });
+  });
+
+  // Fetch products by search query
+  document
+    .getElementById("search-button")
+    .addEventListener("click", function () {
+      const searchQuery = document.getElementById("search-input").value.trim();
+      if (searchQuery) {
+        const sortBy = document.getElementById("sort-by").value; // Get the selected sorting option
+        fetchProductsBySearch(searchQuery, sortBy);
+      }
+    });
+
+  // Fetch products by sorting option
+  document.getElementById("sort-by").addEventListener("change", function () {
+    const sortBy = this.value; // Get the selected sorting option
+    const selectedCategory = document.querySelector(
+      'input[name="category"]:checked'
+    );
+    const searchQuery = document.getElementById("search-input").value.trim();
+
+    if (selectedCategory) {
+      const categoryId = selectedCategory.value;
+      if (searchQuery) {
+        fetchProductsBySearch(searchQuery, sortBy);
+      } else {
+        fetchProductsByCategory(categoryId, sortBy);
+      }
+    } else {
+      const productList = document.getElementById("product-list");
+      productList.innerHTML =
+        '<p class="empty-state">Please select a category first.</p>';
+    }
+  });
+
+  function fetchProductsByCategory(categoryId, sortBy = "") {
+    const productList = document.getElementById("product-list");
+    const spinner = document.getElementById("loading-spinner");
+
+    spinner.style.display = "block";
+    productList.innerHTML = "";
+
+    // Fetch products with category and sorting
+    fetch(`/marketplace/fetch-products?category=${categoryId}&sortBy=${sortBy}`)
+      .then((response) => response.json())
+      .then((data) => {
+        spinner.style.display = "none";
+        displayProducts(data);
+      })
+      .catch((error) => {
+        spinner.style.display = "none";
+        console.error("Error fetching products:", error);
+        productList.innerHTML =
+          '<p class="empty-state">Failed to load products. Please try again later.</p>';
+      });
+  }
+
+  function fetchProductsBySearch(searchQuery, sortBy = "") {
+    const productList = document.getElementById("product-list");
+    const spinner = document.getElementById("loading-spinner");
+    const selectedCategory = document.querySelector(
+      'input[name="category"]:checked'
+    );
+
+    // If no category is selected, show an error
+    if (!selectedCategory) {
+      productList.innerHTML =
+        '<p class="empty-state">Please select a category first.</p>';
+      return;
+    }
+
+    const categoryId = selectedCategory.value;
+
+    spinner.style.display = "block";
+    productList.innerHTML = "";
+
+    // Fetch products by category, search query, and sorting
+    fetch(
+      `/marketplace/fetch-products?category=${categoryId}&search=${searchQuery}&sortBy=${sortBy}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        spinner.style.display = "none";
+        displayProducts(data);
+      })
+      .catch((error) => {
+        spinner.style.display = "none";
+        console.error("Error fetching products:", error);
+        productList.innerHTML =
+          '<p class="empty-state">Failed to load products. Please try again later.</p>';
+      });
+  }
+
+  function displayProducts(products) {
+    const productList = document.getElementById("product-list");
+    productList.innerHTML = ""; // Clear previous content
+
+    if (products.length > 0) {
+      products.forEach((product) => {
+        const productCard = `
+                <div class="product-item" data-product-id="${
+                  product.id
+                }" onclick="openProductPopup(${product.id}, '${
+          product.nom
+        }', '${product.description}', ${product.prix}, ${product.quantite}, '${
+          product.picture || "images/default-product.jpg"
+        }')">
+                    <div class="product-image">
+                        <img src="${
+                          product.picture || "images/default-product.jpg"
+                        }" alt="${product.nom}" />
+                    </div>
+                    <div class="product-details">
+                        <h4>${product.nom}</h4>
+                        <p><strong>Price:</strong> ${product.prix} DT</p>
+                        <p><strong>Quantity:</strong> ${product.quantite}</p>
+                    </div>
+                </div>
+            `;
+        productList.innerHTML += productCard;
+      });
+    } else {
+      productList.innerHTML = '<p class="empty-state">No products found.</p>';
+    }
+  }
+
+  let currentProductId = null;
+
+  // Fetch comments when a product is opened
+  function openProductPopup(id, name, description, price, quantity, image) {
+    currentProductId = id;
+
+    document.getElementById("popupProductName").innerText = name;
+    document.getElementById("popupProductDescription").innerText = description;
+    document.getElementById("popupProductPrice").innerText = price;
+    document.getElementById("popupProductQuantity").innerText = quantity;
+    document.getElementById("popupProductImage").src = image;
+
+    document.getElementById("productPopup").style.display = "block";
+
+    // Fetch comments for the selected product
+    fetchCommentaires(currentProductId);
+  }
+
+  // Close Product Popup
+  function closeProductPopup() {
+    document.getElementById("productPopup").style.display = "none";
+    commentList.innerHTML = ""; // Clear previous comments
+  }
+  // Submit Comment
+  function submitComment() {
+    console.log("Submitting comment for Product ID:", currentProductId); // Debugging
+
+    if (!currentProductId) {
+      console.error("No product selected for commenting.");
+      return;
+    }
+
+    const commentInput = document.getElementById("commentInput");
+    const commentList = document.getElementById("commentList");
+
+    if (commentInput.value.trim() !== "") {
+      fetch(`/produit/${currentProductId}/commentaires/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ contenu: commentInput.value }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            const newComment = document.createElement("div");
+            newComment.classList.add("comment");
+            newComment.innerHTML = `
+                    <img src="${
+                      data.auteurImage || "/images/img2.jpg"
+                    }" class="comment-avatar" alt="User Avatar">
+                    <div class="comment-content">
+                        <strong>${data.auteurName || "Unknown"}</strong>
+                        <p>${commentInput.value}</p>
+                        <small>Just now</small>
+                    </div>
+                `;
+            commentList.prepend(newComment);
+            commentInput.value = ""; // Clear input box
+          } else {
+            alert("Failed to post comment");
+          }
+        })
+        .catch((error) => console.error("Error submitting comment:", error));
+    }
+  }
+</script>
+<style>
+  /* Marketplace Container */
+  .marketplace-container {
+    display: flex;
+    width: 100%;
+    height: 150vh;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  /* Left Side: Categories Section */
+  .categories-section {
+    width: 25%;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+  }
+
+  .categories-section h3 {
+    font-size: 1.5rem;
+    color: #6f9c40;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .category-item {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+
+  .category-item input[type="radio"] {
+    margin-right: 10px;
+  }
+
+  .category-item label {
+    font-size: 1rem;
+    color: #333;
+    cursor: pointer;
+  }
+
+  .vendre-container {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    text-align: center;
+  }
+
+  .vendre-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background-color: #6f9c40;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: 0.3s ease-in-out;
+  }
+
+  .vendre-button:hover {
+    background-color: #6f9c40;
+  }
+
+  /* Right Side: Products Section */
+  .products-section {
+    width: 75%;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .product-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .product-image img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .product-details h4 {
+    font-size: 1.2rem;
+    color: #6f9c40;
+    margin-bottom: 10px;
+  }
+
+  .product-details p {
+    margin: 5px 0;
+    color: #333;
+  }
+
+  .empty-state {
+    text-align: center;
+    margin-top: 20px;
+    color: #888;
+  }
+
+  .search-bar {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+  }
+
+  #search-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+
+  #search-button {
+    padding: 10px 20px;
+    background-color: #6f9c40;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  #search-button:hover {
+    background-color: #6f9c40;
+  }
+
+  .sorting-section {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sorting-section label {
+    font-size: 1rem;
+    color: #333;
+  }
+
+  .sorting-section select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  /* Product Popup (Modal) */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    overflow: auto;
+  }
+
+  .modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 20px;
+    width: 50%;
+    max-height: 80vh;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 25px;
+    cursor: pointer;
+  }
+
+  .product-popup-container {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+  }
+
+  .product-popup-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+  }
+
+  .product-popup-details h2 {
+    margin: 0;
+    color: #6f9c40;
+  }
+
+  /* Comment Section */
+  .comment-section {
+    margin-top: 20px;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .comment-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .comment-box img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  .input-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+  }
+
+  .input-container textarea {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+    resize: none;
+    font-size: 14px;
+    padding-right: 40px;
+  }
+
+  .submit-icon {
+    position: absolute;
+    right: 10px;
+    color: #1877f2;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.3s ease;
+  }
+
+  .submit-icon:hover {
+    color: #135cb0;
+  }
+
+  .comment {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+  }
+
+  .comment-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  .comment-content {
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 8px;
+    flex: 1;
+  }
+
+  .comment-content strong {
+    display: block;
+    font-size: 14px;
+    color: #1877f2;
+  }
+
+  .comment-content p {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+
+  .comment-content small {
+    color: gray;
+    font-size: 12px;
+  }
+
+  .comment-actions {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    cursor: pointer;
+  }
+
+  .comment-actions .dots {
+    font-size: 20px;
+    color: #666;
+  }
+
+  .comment-actions .menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
+
+  .comment-actions .menu button {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+  }
+
+  .comment-actions .menu button:hover {
+    background: #f5f5f5;
+  }
+
+  .comment-actions.active .menu {
+    display: block;
+  }
+
+  .reply-button {
+    background: none;
+    border: none;
+    color: #1877f2;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 0;
+    margin-left: 10px;
+  }
+
+  .reply-button:hover {
+    text-decoration: underline;
+  }
+
+  .reply-box {
+    margin-top: 10px;
+    padding-left: 50px;
+  }
+
+  .reply-box textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    resize: none;
+  }
+
+  .reply-box button {
+    margin-top: 10px;
+    background: #1877f2;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .reply-box button:hover {
+    background: #135cb0;
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,250 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\templates\\base.html.twig||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\base.html.twig||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\templates\\home\\index.html.twig||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\home\\index.html.twig||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\templates\\marketplace\\index.html.twig||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\marketplace\\index.html.twig||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\templates\\home.html.twig||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\home.html.twig||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Controller\\MarketplaceController.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Controller\\MarketplaceController.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Controller\\HomeController.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Controller\\HomeController.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Controller\\ProduitController.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Controller\\ProduitController.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Controller\\CategorieController.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Controller\\CategorieController.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Form\\ProduitType.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Form\\ProduitType.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Form\\CategorieType.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Form\\CategorieType.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Entity\\Categorie.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Entity\\Categorie.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Entity\\Produit.php||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Entity\\Produit.php||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\assets\\controllers\\hello_controller.js||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:assets\\controllers\\hello_controller.js||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:.env||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "index.html.twig",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\templates\\home\\index.html.twig",
+              "RelativeDocumentMoniker": "templates\\home\\index.html.twig",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\templates\\home\\index.html.twig",
+              "RelativeToolTip": "templates\\home\\index.html.twig",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-28T23:35:40.853Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HomeController.php",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Controller\\HomeController.php",
+              "RelativeDocumentMoniker": "src\\Controller\\HomeController.php",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Controller\\HomeController.php",
+              "RelativeToolTip": "src\\Controller\\HomeController.php",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-28T22:57:28.031Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "home.html.twig",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\templates\\home.html.twig",
+              "RelativeDocumentMoniker": "templates\\home.html.twig",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\templates\\home.html.twig",
+              "RelativeToolTip": "templates\\home.html.twig",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-28T22:55:33.228Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "base.html.twig",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\templates\\base.html.twig",
+              "RelativeDocumentMoniker": "templates\\base.html.twig",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\templates\\base.html.twig",
+              "RelativeToolTip": "templates\\base.html.twig",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAAAGwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-28T22:50:51.14Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "index.html.twig",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\templates\\marketplace\\index.html.twig",
+              "RelativeDocumentMoniker": "templates\\marketplace\\index.html.twig",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\templates\\marketplace\\index.html.twig",
+              "RelativeToolTip": "templates\\marketplace\\index.html.twig",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-28T00:09:33.27Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MarketplaceController.php",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Controller\\MarketplaceController.php",
+              "RelativeDocumentMoniker": "src\\Controller\\MarketplaceController.php",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Controller\\MarketplaceController.php",
+              "RelativeToolTip": "src\\Controller\\MarketplaceController.php",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACYAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-28T00:08:56.392Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CategorieType.php",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Form\\CategorieType.php",
+              "RelativeDocumentMoniker": "src\\Form\\CategorieType.php",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Form\\CategorieType.php",
+              "RelativeToolTip": "src\\Form\\CategorieType.php",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-28T00:00:02.64Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ProduitType.php",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Form\\ProduitType.php",
+              "RelativeDocumentMoniker": "src\\Form\\ProduitType.php",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Form\\ProduitType.php",
+              "RelativeToolTip": "src\\Form\\ProduitType.php",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-27T23:59:58.52Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProduitController.php",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Controller\\ProduitController.php",
+              "RelativeDocumentMoniker": "src\\Controller\\ProduitController.php",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Controller\\ProduitController.php",
+              "RelativeToolTip": "src\\Controller\\ProduitController.php",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAACwAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-27T23:38:56.217Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CategorieController.php",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Controller\\CategorieController.php",
+              "RelativeDocumentMoniker": "src\\Controller\\CategorieController.php",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Controller\\CategorieController.php",
+              "RelativeToolTip": "src\\Controller\\CategorieController.php",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-27T23:38:55.316Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Produit.php",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Entity\\Produit.php",
+              "RelativeDocumentMoniker": "src\\Entity\\Produit.php",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Entity\\Produit.php",
+              "RelativeToolTip": "src\\Entity\\Produit.php",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAAAG4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-27T23:31:04.811Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Categorie.php",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Entity\\Categorie.php",
+              "RelativeDocumentMoniker": "src\\Entity\\Categorie.php",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\src\\Entity\\Categorie.php",
+              "RelativeToolTip": "src\\Entity\\Categorie.php",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAAAEwAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-27T23:31:04.222Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": ".env",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\.env",
+              "RelativeDocumentMoniker": ".env",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\.env",
+              "RelativeToolTip": ".env",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABwAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-01-27T23:15:46.919Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "hello_controller.js",
+              "DocumentMoniker": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\assets\\controllers\\hello_controller.js",
+              "RelativeDocumentMoniker": "assets\\controllers\\hello_controller.js",
+              "ToolTip": "C:\\Users\\rebhi\\symfony\\projet_sabeel\\Sabeel\\assets\\controllers\\hello_controller.js",
+              "RelativeToolTip": "assets\\controllers\\hello_controller.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-01-27T23:15:24.77Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="product-details-container">
+    <div class="product-card">
+        <h2>{{ product.nom }}</h2>
+        <p>{{ product.description }}</p>
+        <p><strong>Price:</strong> {{ product.prix }} DT</p>
+        <p><strong>Quantity:</strong> {{ product.quantite }}</p>
+        <a href="/marketplace" class="back-button">Back to Marketplace</a>
+    </div>
+</div>
+
+<style>
+    .product-details-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+    }
+
+    .product-card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 50%;
+        text-align: center;
+    }
+
+    .back-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 15px;
+        background: #006400;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .back-button:hover {
+        background: #004d00;
+    }
+</style>
+{% endblock %}
