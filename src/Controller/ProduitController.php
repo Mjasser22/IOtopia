@@ -26,7 +26,7 @@ final class ProduitController extends AbstractController
     {
         return $this->render('produit/index.html.twig', [
             'produits' => $produitRepository->findAll(),
-        ]);
+        ]);         
     }
 
     #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
@@ -99,6 +99,10 @@ final class ProduitController extends AbstractController
 
         return new JsonResponse($data);
     }
+
+    /**
+     * @Route("/produit/{id}/commentaires", name="produit_commentaires", methods={"GET"})
+     */
 
     /**
      * @Route("/produit/{id}/commentaires/add", name="produit_add_commentaire", methods={"POST"})
