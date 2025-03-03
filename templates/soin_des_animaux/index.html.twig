@@ -1,39 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SoinDesAnimaux index{% endblock %}
+{% block title %}Soin des Animaux{% endblock %}
 
 {% block body %}
-    <h1>SoinDesAnimaux index</h1>
+<div class="container mt-4">
+    <h1 class="text-center text-primary mb-4"><i class="fas fa-paw"></i> Gestion des Soins des Animaux</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Description</th>
-                <th>Start_date</th>
-                <th>Duration</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for soin_des_animaux in soin_des_animauxes %}
-            <tr>
-                <td>{{ soin_des_animaux.id }}</td>
-                <td>{{ soin_des_animaux.Description }}</td>
-                <td>{{ soin_des_animaux.startDate ? soin_des_animaux.startDate|date('Y-m-d') : '' }}</td>
-                <td>{{ soin_des_animaux.duration }}</td>
-                <td>
-                    <a href="{{ path('app_soin_des_animaux_show', {'id': soin_des_animaux.id}) }}">show</a>
-                    <a href="{{ path('app_soin_des_animaux_edit', {'id': soin_des_animaux.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="card shadow p-4">
+        <table class="table table-striped table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Date de début</th>
+                    <th>Durée (jours)</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for SoinDesAnimaux in SoinDesAnimaux %}
+                    <tr>
+                        <td>{{ SoinDesAnimaux.id }}</td>
+                        <td>{{ SoinDesAnimaux.Description }}</td>
+                        <td>{{ SoinDesAnimaux.startDate ? SoinDesAnimaux.startDate|date('Y-m-d') : 'N/A' }}</td>
+                        <td>{{ SoinDesAnimaux.duration }}</td>
+                        <td class="text-center">
+                            <a href="{{ path('app_soin_des_animaux_show', {'id': soin_des_animaux.id}) }}" class="btn btn-info btn-sm">
+                                <i class="fas fa-eye"></i> Voir
+                            </a>
+                            <a href="{{ path('app_soin_des_animaux_edit', {'id': soin_des_animaux.id}) }}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> Modifier
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">Aucun soin trouvé</td>
+                    </tr>
+                    {# templates/soin_des_animaux/index.html.twig #}
 
-    <a href="{{ path('app_soin_des_animaux_new') }}">Create new</a>
+
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+        <a href="{{ path('app_soin_des_animaux_new') }}" class="btn btn-success">
+            <i class="fas fa-plus-circle"></i> Ajouter un nouveau soin
+        </a>
+    </div>
+</div>
+<a href="{{ path('app_soin_des_animaux_calendar') }}" class="btn btn-primary">
+    <i class="fas fa-calendar-alt"></i> Voir le Calendrier
+</a>
+<!-- Ajout des styles personnalisés -->
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    h1 {
+        font-weight: bold;
+    }
+    .card {
+        border-radius: 10px;
+    }
+</style>
+
+<!-- Ajout de Font Awesome pour les icônes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}

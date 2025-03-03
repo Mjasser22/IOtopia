@@ -12,7 +12,8 @@ class SoinDesAnimaux
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
+    
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -29,8 +30,10 @@ class SoinDesAnimaux
         type: "\DateTimeInterface",
         message: "Veuillez entrer une date valide."
     )]
+
     private ?\DateTimeInterface $start_date = null;
 
+  
     #[ORM\Column(nullable: true)]
     #[Assert\NotBlank(message: "La durée est obligatoire.")]
     #[Assert\Positive(message: "La durée doit être un nombre positif.")]

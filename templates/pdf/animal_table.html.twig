@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Détails de l'Animal</title>
+    
+    <style>
+        { source('\css\bootstrap.min.css.min.css') }
+        /* Custom styles */
+        body {
+            padding: 20px;
+        }
+        .table {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Détails de l'Animal</h1>
+    <table class="table table-bordered table-hover">
+        <tbody>
+            <tr>
+                <th scope="row">ID</th>
+                <td>{{ animal.id }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Nom</th>
+                <td>{{ animal.name }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Espèce</th>
+                <td>{{ animal.species }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Âge</th>
+                <td>{{ animal.age }} ans</td>
+            </tr>
+            <tr>
+                <th scope="row">État de santé</th>
+                <td>
+                    {% if animal.healthStatus == 'Healthy' %}
+                        <span class="badge bg-success">Sain</span>
+                    {% elseif animal.healthStatus == 'Sick' %}
+                        <span class="badge bg-warning text-dark">Malade</span>
+                    {% else %}
+                        <span class="badge bg-danger">Blessé</span>
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

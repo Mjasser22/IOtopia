@@ -101,4 +101,5 @@ public function new(Request $request, EntityManagerInterface $entityManager): Re
 
         return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
     }
+    
 }

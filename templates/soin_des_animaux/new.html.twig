@@ -1,11 +1,84 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New SoinDesAnimaux{% endblock %}
+{% block title %}Créer un nouveau soin{% endblock %}
 
 {% block body %}
-    <h1>Create new SoinDesAnimaux</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-info text-white text-center">
+                    <h2><i class="fa-solid fa-stethoscope"></i> Créer un nouveau soin</h2>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
-    {{ include('soin_des_animaux/_form.html.twig') }}
+                    <!-- Description -->
+                    <div class="form-group mb-3">
+                        {{ form_label(form.Description) }}
+                        {{ form_widget(form.Description, {
+                            'attr': {
+                                'class': 'form-control' ~ (form.Description.vars.errors|length > 0 ? ' is-invalid' : '')
+                            }
+                        }) }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.Description) }}
+                        </div>
+                    </div>
 
-    <a href="{{ path('app_soin_des_animaux_index') }}">back to list</a>
+                    <!-- Start Date -->
+                    <div class="form-group mb-3">
+                        {{ form_label(form.start_date ) }}
+                        {{ form_widget(form.start_date, {
+                            'attr': {
+                                'class': 'form-control' ~ (form.start_date.vars.errors|length > 0 ? ' is-invalid' : '')
+                            }
+                        }) }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.start_date) }}
+                        </div>
+                    </div>
+
+                    <!-- Duration -->
+                    <div class="form-group mb-3">
+                        {{ form_label(form.duration) }}
+                        {{ form_widget(form.duration, {
+                            'attr': {
+                                'class': 'form-control' ~ (form.duration.vars.errors|length > 0 ? ' is-invalid' : '')
+                            }
+                        }) }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.duration) }}
+                        </div>
+                    </div>
+
+                    <!-- Animal -->
+                    <div class="form-group mb-3">
+                        {{ form_label(form.animal) }}
+                        {{ form_widget(form.animal, {
+                            'attr': {
+                                'class': 'form-control' ~ (form.animal.vars.errors|length > 0 ? ' is-invalid' : '')
+                            }
+                        }) }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.animal) }}
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="{{ path('app_soin_des_animaux_index') }}" class="btn btn-secondary">
+                            <i class="fa-solid fa-arrow-left"></i> Retour à la liste
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa-solid fa-save"></i> Sauvegarder
+                        </button>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

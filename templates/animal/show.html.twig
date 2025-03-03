@@ -1,38 +1,90 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Animal{% endblock %}
+{% block title %}Détails de l'Animal{% endblock %}
 
 {% block body %}
-    <h1>Animal</h1>
+<div class="container mt-4">
+    <h1 class="text-center text-primary mb-4">
+        <i class="fas fa-paw"></i> Détails de l'Animal
+    </h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ animal.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ animal.name }}</td>
-            </tr>
-            <tr>
-                <th>Species</th>
-                <td>{{ animal.species }}</td>
-            </tr>
-            <tr>
-                <th>Age</th>
-                <td>{{ animal.age }}</td>
-            </tr>
-            <tr>
-                <th>Health_status</th>
-                <td>{{ animal.healthStatus }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="card shadow p-4">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th scope="row">ID</th>
+                    <td>{{ animal.id }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Nom</th>
+                    <td>{{ animal.name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Espèce</th>
+                    <td>{{ animal.species }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Âge</th>
+                    <td>{{ animal.age }} ans</td>
+                </tr>
+                <tr>
+                    <th scope="row">État de santé</th>
+                    <td>
+                        {% if animal.healthStatus == 'Healthy' %}
+                            <span class="badge bg-success">Sain</span>
+                        {% elseif animal.healthStatus == 'Sick' %}
+                            <span class="badge bg-warning text-dark">Malade</span>
+                        {% else %}
+                            <span class="badge bg-danger">Blessé</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <a href="{{ path('app_animal_index') }}">back to list</a>
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{{ path('app_animal_index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
 
-    <a href="{{ path('app_animal_edit', {'id': animal.id}) }}">edit</a>
+        <a href="{{ path('app_animal_edit', {'id': animal.id}) }}" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Modifier
+        </a>
 
-    {{ include('animal/_delete_form.html.twig') }}
+        <!-- Bouton pour ajouter un soin -->
+        <a href="{{ path('app_soin_des_animaux_new') }}" class="btn btn-success">
+            <i class="fas fa-plus-circle"></i> Ajouter une consultation 
+        </a>
+        <a href="{{ path('animal_health') }}" class="btn btn-info">
+            <i class="fas fa-stethoscope"></i> Prédire l'état de santé
+        </a>
+
+        <a href="{{ path('generate_pdf', {'id': animal.id}) }}" class="btn btn-primary">
+            <i class="fas fa-file-pdf"></i> Generate file 
+        </a>
+</div>
+        {% if include('animal/_delete_form.html.twig') is not empty %}
+            {{ include('animal/_delete_form.html.twig') }}
+        {% endif %}
+    </div>
+    
+</div>
+
+
+<!-- Ajout des styles personnalisés -->
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    h1 {
+        font-weight: bold;
+    }
+    .card {
+        border-radius: 10px;
+    }
+</style>
+
+<!-- Ajout de Font Awesome pour les icônes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}

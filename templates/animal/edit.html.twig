@@ -57,6 +57,12 @@
                         <button type="submit" class="btn btn-warning">
                             <i class="fa-solid fa-save"></i> Modifier
                         </button>
+                        <!-- Delete Button -->
+                        <form action="{{ path('app_animal_delete', {'id': animal.id}) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet animal ?');">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa-solid fa-trash"></i> Supprimer
+                            </button>
+                        </form>
                     </div>
 
                     {{ form_end(form) }}

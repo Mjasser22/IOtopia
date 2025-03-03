@@ -1,13 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit SoinDesAnimaux{% endblock %}
+{% block title %}Modifier un Soin des Animaux{% endblock %}
 
 {% block body %}
-    <h1>Edit SoinDesAnimaux</h1>
+<div class="container mt-4">
+    <h1 class="text-center text-primary mb-4">
+        <i class="fas fa-paw"></i> Modifier un Soin des Animaux
+    </h1>
 
-    {{ include('soin_des_animaux/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="card shadow p-4">
+        {{ include('soin_des_animaux/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
 
-    <a href="{{ path('app_soin_des_animaux_index') }}">back to list</a>
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{{ path('app_soin_des_animaux_index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
 
-    {{ include('soin_des_animaux/_delete_form.html.twig') }}
+        {{ include('soin_des_animaux/_delete_form.html.twig') }}
+    </div>
+</div>
+
+<!-- Ajout des styles personnalisés -->
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    h1 {
+        font-weight: bold;
+    }
+    .card {
+        border-radius: 10px;
+    }
+</style>
+
+<!-- Ajout de Font Awesome pour les icônes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}

@@ -15,7 +15,15 @@ class AnimalRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Animal::class);
     }
-
+    public function findAllWithDetails()
+    {
+        return $this->createQueryBuilder('a')
+            ->addSelect('s')
+            ->leftJoin('a.soins', 's')
+            ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return Animal[] Returns an array of Animal objects
     //     */

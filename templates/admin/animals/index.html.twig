@@ -1,0 +1,49 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des Animaux{% endblock %}
+
+{% block content %}
+<div class="content-header">
+    <h1 class="text-dark">Animaux enregistrés <small>({{ animals|length }})</small></h1>
+</div>
+
+<div class="card">
+    <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Espèce</th>
+                    <th>Santé</th>
+                    <th>Dernière modification</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for animal in animals %}
+                <tr>
+                    <td>{{ animal.id }}</td>
+                    <td>{{ animal.name }}</td>
+                    <td>{{ animal.species }}</td>
+                    <td>
+                        <span class="badge {{ animal.healthStatus == 'Healthy' ? 'bg-success' : 'bg-danger' }}">
+                            {{ animal.healthStatus }}
+                        </span>
+                    </td>
+                    <td>{{ animal.updatedAt|date('d/m/Y H:i') }}</td>
+                    <td>
+                        <a href="{{ path('admin_animal_edit', {id: animal.id}) }}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{ path('admin_animal_delete', {id: animal.id}) }}" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

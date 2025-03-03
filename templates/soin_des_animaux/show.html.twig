@@ -1,34 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SoinDesAnimaux{% endblock %}
+{% block title %}Soin des Animaux{% endblock %}
 
 {% block body %}
-    <h1>SoinDesAnimaux</h1>
+    <div class="container mt-4">
+        <h1 class="mb-4 text-center text-success">
+            <i class="bi bi-heart-pulse-fill icon-spacing"></i> Détails du Soin des Animaux
+        </h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ soin_des_animaux.id }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ soin_des_animaux.Description }}</td>
-            </tr>
-            <tr>
-                <th>Start_date</th>
-                <td>{{ soin_des_animaux.startDate ? soin_des_animaux.startDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Duration</th>
-                <td>{{ soin_des_animaux.duration }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th scope="row"><i class="bi bi-info-circle icon-spacing"></i> ID</th>
+                            <td>{{ SoinDesAnimaux.id }}</td>  <!-- Correct variable name -->
+                        </tr>
+                        <tr>
+                            <th scope="row"><i class="bi bi-journal-text icon-spacing"></i> Description</th>
+                            <td>{{ SoinDesAnimaux.description }}</td>  <!-- Correct variable name -->
+                        </tr>
+                        <tr>
+                            <th scope="row"><i class="bi bi-calendar-event icon-spacing"></i> Date de Début</th>
+                            <td>{{ SoinDesAnimaux.startDate ? SoinDesAnimaux.startDate|date('Y-m-d') : 'Non définie' }}</td>  <!-- Correct variable name -->
+                        </tr>
+                        <tr>
+                            <th scope="row"><i class="bi bi-clock-history icon-spacing"></i> Durée</th>
+                            <td>{{ SoinDesAnimaux.duration }}</td>  <!-- Correct variable name -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <a href="{{ path('app_soin_des_animaux_index') }}">back to list</a>
-
-    <a href="{{ path('app_soin_des_animaux_edit', {'id': soin_des_animaux.id}) }}">edit</a>
-
-    {{ include('soin_des_animaux/_delete_form.html.twig') }}
+        <div class="mt-4 d-flex justify-content-between">
+            <a href="{{ path('app_soin_des_animaux_index') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left icon-spacing"></i> Retour à la liste
+            </a>
+            <a href="{{ path('app_soin_des_animaux_edit', {'id': SoinDesAnimaux.id}) }}" class="btn btn-primary">
+                <i class="bi bi-pencil icon-spacing"></i> Modifier
+            </a>
+        </div>
+        <a href="{{ path('app_soin_des_animaux_calendar') }}" class="btn btn-primary">
+            <i class="fas fa-calendar-alt"></i> Voir le Calendrier
+        </a>
+        <div class="mt-3">
+            {{ include('soin_des_animaux/_delete_form.html.twig') }}
+        </div>
+    </div>
 {% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Animal Health Check{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .symptom-checkboxes .form-check {
+            margin-right: 20px;
+            display: inline-block;
+        }
+        .prediction-card {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        .dangerous { background-color: #f8d7da; border-color: #f5c6cb; }
+        .non-dangerous { background-color: #d4edda; border-color: #c3e6cb; }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="mb-4">Animal Health Assessment</h2>
+
+        <div class="card shadow">
+            <div class="card-body">
+                {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                    <div class="mb-4">
+                        {{ form_label(form.animalType, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.animalType, {'attr': {'class': 'form-select'}}) }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.animalType) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <p class="form-label">Select Symptoms:</p>
+                        <div class="symptom-checkboxes">
+                            {{ form_widget(form.symptoms) }}
+                        </div>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.symptoms) }}
+                        </div>
+                    </div>
+
+                    {{ form_widget(form.submit) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+        {% if prediction %}
+            <div class="prediction-card card mt-4 {{ prediction.prediction == 'Dangerous' ? 'dangerous' : 'non-dangerous' }}">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        {% if prediction.prediction == 'Dangerous' %}
+                            ⚠️ Dangerous
+                        {% else %}
+                            ✔️ Non-Dangerous
+                        {% endif %}
+                    </h3>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <p class="mb-1"><strong>Confidence Level:</strong></p>
+                            <div class="progress">
+                                <div class="progress-bar {{ prediction.prediction == 'Dangerous' ? 'bg-danger' : 'bg-success' }}" 
+                                     role="progressbar" 
+                                     style="width: {{ prediction.confidence }}%"
+                                     aria-valuenow="{{ prediction.confidence }}" 
+                                     aria-valuemin="0" 
+                                     aria-valuemax="100">
+                                    {{ prediction.confidence|round(2) }}%
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <p class="mb-1"><strong>Symptoms Analyzed:</strong></p>
+                            <ul class="list-unstyled">
+                                {% for symptom in prediction.features|filter(s => s starts with 'symptoms') %}
+                                    <li>{{ symptom|replace({'symptoms': 'Symptom ', '_': ' '})|title }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        {% endif %}
+
+        {% if error %}
+        <a href="{{ path('show.html.twig') }}" class="btn btn-info">
+            <i class="fas fa-stethoscope"></i> Back to list 
+        </a>
+            <div class="alert alert-danger mt-4" role="alert">
+                <h4 class="alert-heading">⚠️ Error!</h4>
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
