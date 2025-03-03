@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Edit User</h1>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <table class="table">
             <tbody>
                 <tr>
@@ -15,14 +15,6 @@
                 <tr>
                     <th>Password</th>
                     <td>{{ form_widget(form.password) }}</td>
-                </tr>
-                <tr>
-                    <th>Roles</th>
-                    <td>{{ form_widget(form.roles) }}</td>
-                </tr>
-                <tr>
-                    <th>Is Verified</th>
-                    <td>{{ form_widget(form.isVerified) }}</td>
                 </tr>
                 <tr>
                     <th>User Type</th>
@@ -35,6 +27,10 @@
                 <tr>
                     <th>Lastname</th>
                     <td>{{ form_widget(form.lastname) }}</td>
+                </tr>
+                <tr>
+                    <th>Profile Image</th>
+                    <td>{{ form_widget(form.image) }}</td>
                 </tr>
             </tbody>
         </table>

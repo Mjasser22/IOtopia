@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
+use App\Form\RecaptchaType;
 
 class EmployeeType extends AbstractType
 {
@@ -30,6 +31,14 @@ class EmployeeType extends AbstractType
                 new Email(['message' => 'Please enter a valid email address.']),
             ],
         ])
+        ->add('password', PasswordType::class, [
+            'label' => 'Password',
+            'mapped' => false,
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Please enter a password']),
+            ],
+        ])
         ->add('firstname', TextType::class, [
             'constraints' => [
                 new NotBlank(['message' => 'First name cannot be empty.']),
@@ -38,17 +47,6 @@ class EmployeeType extends AbstractType
         ->add('lastname', TextType::class, [
             'constraints' => [
                 new NotBlank(['message' => 'Last name cannot be empty.']),
-            ],
-        ])
-        ->add('password', PasswordType::class, [
-            'label' => 'Password',
-            'mapped' => false,
-            'required' => false,
-            'constraints' => [
-                new NotBlank([
-                    'message' => 'Please enter a password',
-                    'groups' => ['create']
-                ]),
             ],
         ])
         ->add('agreeTerms', CheckboxType::class, [

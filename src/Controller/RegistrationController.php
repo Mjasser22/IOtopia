@@ -12,6 +12,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\Bridge\Twig\Transport\TemplatedEmail;
+use App\Security\EmailVerifier; // Add this line to use EmailVerifier
+
 
 class RegistrationController extends AbstractController
 {
@@ -20,7 +23,9 @@ class RegistrationController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher,
-        MailerInterface $mailer
+        MailerInterface $mailer,
+        EmailVerifier $emailVerifier // Inject EmailVerifier
+
     ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -62,21 +67,21 @@ class RegistrationController extends AbstractController
             dd("User should be in the database now!");
 
         
-            // Send confirmation email
-            $confirmationUrl = $this->generateUrl('app_register', ['token' => $token], 0);
-            $emailMessage = (new Email())
-                ->from('no-reply@yourdomain.com')
-                ->to($user->getEmail())
-                ->subject('Registration Confirmation')
-                ->html('<p>Please confirm your registration by clicking the link below.</p><a href="' . $confirmationUrl . '">Confirm Registration</a>');
-
-            $mailer->send($emailMessage);
+            // Send confirmation email using EmailVerifier
+            $emailVerifier->sendEmailConfirmation(
+                'app_register', // The route name for email verification
+                $user, 
+                (new TemplatedEmail()) // Use TemplatedEmail for email body
+                    ->from('no-reply@yourdomain.com')
+                    ->to($user->getEmail())
+                    ->subject('Registration Confirmation')
+                    ->htmlTemplate('emails/registration_confirmation.html.twig') // Optional: Use a Twig template
+            );
 
             // Redirect with success message
             $this->addFlash('success', 'Registration successful! Check your email for confirmation.');
             return $this->redirectToRoute('app_login');
         }
-
         return $this->render('register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);

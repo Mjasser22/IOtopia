@@ -3,44 +3,115 @@
 {% block title %}Register as Employee{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-    <h1>Register as an Employee</h1>
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg p-4" style="max-width: 600px; width: 100%;">
+        <div class="card-body">
+            <h2 class="text-center mb-4">Register as an Employee</h2>
 
-    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-    <div class="mb-3">
-        {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-        {{ form_errors(form.email) }}
+            {# Display success and error messages #}
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+
+            {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+                <div class="form-group">
+                    {{ form_label(form.email, 'Email', {'label_attr': {'class': 'font-weight-bold'}}) }}
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter email address'}}) }}
+                    {{ form_errors(form.email) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.password, 'Password', {'label_attr': {'class': 'font-weight-bold'}}) }}
+                    {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Enter password'}}) }}
+                    {{ form_errors(form.password) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.firstname, 'First Name', {'label_attr': {'class': 'font-weight-bold'}}) }}
+                    {{ form_widget(form.firstname, {'attr': {'class': 'form-control', 'placeholder': 'Enter your first name'}}) }}
+                    {{ form_errors(form.firstname) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.lastname, 'Last Name', {'label_attr': {'class': 'font-weight-bold'}}) }}
+                    {{ form_widget(form.lastname, {'attr': {'class': 'form-control', 'placeholder': 'Enter your last name'}}) }}
+                    {{ form_errors(form.lastname) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.image, 'Profile Image', {'label_attr': {'class': 'font-weight-bold'}}) }}
+                    {{ form_widget(form.image, {'attr': {'class': 'form-control-file'}}) }}
+                    {{ form_errors(form.image) }}
+                </div>
+
+              
+                <button type="submit" class="btn btn-success btn-block mt-3">Register as Employee</button>
+
+            {{ form_end(form) }}
+
+            <div class="row mt-4">
+                <div class="col-6">
+                    <a href="{{ path('app_home') }}" class="btn btn-secondary btn-block">Back Home</a>
+                </div>
+                <div class="col-6">
+                    <a href="{{ path('app_employer_register') }}" class="btn btn-primary btn-block">Register as Employer</a>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="mb-3">
-        {{ form_label(form.password, 'Password', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
-        {{ form_errors(form.password) }}
-    </div>
-
-    <div class="mb-3">
-        {{ form_label(form.firstname, 'First Name', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
-        {{ form_errors(form.firstname) }}
-    </div>
-
-    <div class="mb-3">
-        {{ form_label(form.lastname, 'Last Name', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
-        {{ form_errors(form.lastname) }}
-    </div>
-
-    <div class="mb-3">
-        {{ form_label(form.image, 'Profile Image', {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
-        {{ form_errors(form.image) }}
-    </div>
-
-    <button type="submit" class="btn btn-success">Register as Employee</button>
-
-    {{ form_end(form) }}
-
-    <a href="{{ path('app_user_index') }}" class="btn btn-secondary mt-3">Back to list</a>
 </div>
+
+
+
+<style>
+    .card {
+        border-radius: 12px;
+        border: none;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+        border-radius: 6px;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    .btn-secondary, .btn-primary {
+        border-radius: 6px;
+    }
+
+    .form-control {
+        border-radius: 8px;
+    }
+
+    .form-control-file {
+        border-radius: 8px;
+    }
+
+    h2 {
+        color: #333;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+</style>
 {% endblock %}

@@ -1,0 +1,11 @@
+<!-- templates/user/notifications.html.twig -->
+
+<h2>Notifications</h2>
+
+<ul>
+    {% for notification in notifications %}
+        <li>{{ notification.message }} - {{ notification.createdAt|date('Y-m-d H:i') }}</li>
+    {% else %}
+        <li>No new notifications.</li>
+    {% endfor %}
+</ul>

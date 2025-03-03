@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register as Employer{% endblock %}
+{% block title %}Edit Employee{% endblock %}
 
 {% block body %}
 <div class="container mt-5 d-flex justify-content-center">
     <div class="card shadow-lg p-4" style="max-width: 600px; width: 100%;">
         <div class="card-body">
-            <h2 class="text-center mb-4">Register as an Employer</h2>
+            <h2 class="text-center mb-4">Edit Employee</h2>
 
             {# Display success and error messages #}
             {% for message in app.flashes('success') %}
@@ -31,26 +31,26 @@
 
                 <div class="form-group">
                     {{ form_label(form.email, 'Email', {'label_attr': {'class': 'font-weight-bold'}}) }}
-                    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter email address'}}) }}
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter email'}}) }}
                     {{ form_errors(form.email) }}
                 </div>
 
                 <div class="form-group">
-                    {{ form_label(form.password, 'Password', {'label_attr': {'class': 'font-weight-bold'}}) }}
-                    {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Enter password'}}) }}
-                    {{ form_errors(form.password) }}
-                </div>
-
-                <div class="form-group">
                     {{ form_label(form.firstname, 'First Name', {'label_attr': {'class': 'font-weight-bold'}}) }}
-                    {{ form_widget(form.firstname, {'attr': {'class': 'form-control', 'placeholder': 'Enter your first name'}}) }}
+                    {{ form_widget(form.firstname, {'attr': {'class': 'form-control', 'placeholder': 'Enter first name'}}) }}
                     {{ form_errors(form.firstname) }}
                 </div>
 
                 <div class="form-group">
                     {{ form_label(form.lastname, 'Last Name', {'label_attr': {'class': 'font-weight-bold'}}) }}
-                    {{ form_widget(form.lastname, {'attr': {'class': 'form-control', 'placeholder': 'Enter your last name'}}) }}
+                    {{ form_widget(form.lastname, {'attr': {'class': 'form-control', 'placeholder': 'Enter last name'}}) }}
                     {{ form_errors(form.lastname) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.password, 'Password (Leave blank to keep current password)', {'label_attr': {'class': 'font-weight-bold'}}) }}
+                    {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Enter new password (optional)'}}) }}
+                    {{ form_errors(form.password) }}
                 </div>
 
                 <div class="form-group">
@@ -58,15 +58,11 @@
                     {{ form_widget(form.image, {'attr': {'class': 'form-control-file'}}) }}
                     {{ form_errors(form.image) }}
                 </div>
-    
-                <button type="submit" class="btn btn-primary btn-block mt-3">Register as Employer</button>
+
+                <button type="submit" class="btn btn-primary btn-block mt-3">Save Changes</button>
+                <a href="{{ path('app_home') }}" class="btn btn-secondary btn-block mt-2">Cancel</a>
 
             {{ form_end(form) }}
-
-            <div class="text-center mt-4">
-                <a href="{{ path('app_home') }}" class="btn btn-secondary btn-block mt-2">Back Home</a>
-                <a href="{{ path('app_employee_register') }}" class="btn btn-success btn-block mt-2">Register as Employee</a>
-            </div>
         </div>
     </div>
 </div>
@@ -87,24 +83,8 @@
         background-color: #0056b3;
     }
 
-    .btn-success {
-        background-color: #28a745;
-        border: none;
-        border-radius: 6px;
-    }
-
-    .btn-success:hover {
-        background-color: #218838;
-    }
-
     .btn-secondary {
-        background-color: #6c757d;
-        border: none;
         border-radius: 6px;
-    }
-
-    .btn-secondary:hover {
-        background-color: #5a6268;
     }
 
     .form-control {
@@ -113,10 +93,6 @@
 
     h2 {
         color: #333;
-    }
-
-    .text-center {
-        text-align: center;
     }
 </style>
 {% endblock %}

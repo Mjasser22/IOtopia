@@ -1,0 +1,32 @@
+{# templates/contact/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block body %}
+    <h1>Contact Us</h1>
+
+    {% if app.session.flashbag.has('success') %}
+        <div class="alert alert-success">
+            {{ app.session.flashbag.get('success')[0] }}
+        </div>
+    {% endif %}
+
+    {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_row(form.fullName) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.email) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.phone) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.message) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.send) }}
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

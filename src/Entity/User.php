@@ -45,6 +45,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $recaptcha = null; // Add the recaptcha property
+
     public function getId(): ?int
     {
         return $this->id;
@@ -164,4 +167,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->image = $image;
         return $this;
     }
+
+    // Getter for recaptcha property
+    public function getRecaptcha(): ?string
+    {
+        return $this->recaptcha;
+    }
+    
+        // Setter for recaptcha property
+        public function setRecaptcha(?string $recaptcha): self
+        {
+            $this->recaptcha = $recaptcha;
+            return $this;
+        }
+    
 }

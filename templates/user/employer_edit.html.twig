@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Employer{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+
+    <h1>Edit Employer</h1>
+
+    {# Success Message #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <form method="post" enctype="multipart/form-data" novalidate="novalidate">
+        {{ form_start(form) }}
+
+        <div class="mb-3">
+            {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.email) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.firstname, 'First Name', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.firstname) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.lastname, 'Last Name', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.lastname) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.password, 'Password', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.password) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.image, 'Profile Image', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.image) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        <a href="{{ path('app_home') }}" class="btn btn-secondary">Cancel</a>
+
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+    </form>
+</div>
+
+{# Error Messages #}
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">{{ message }}</div>
+{% endfor %}
+{% endblock %}

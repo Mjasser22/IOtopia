@@ -25,7 +25,6 @@ class UserType extends AbstractType
             ->add('password', PasswordType::class, [
                 'label' => 'Password',
                 'mapped' => false,
-                'required' => false,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
