@@ -24,6 +24,20 @@ class AnimalRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function getSpeciesPercentages(): array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('a.species, COUNT(a.id) as count')
+            ->groupBy('a.species');
+        $results = $qb->getQuery()->getResult();
+
+        $total = array_sum(array_column($results, 'count'));
+        $percentages = [];
+        foreach ($results as $row) {
+            $percentages[$row['species']] = $total > 0 ? round(($row['count'] / $total) * 100, 2) : 0;
+        }
+        return $percentages;
+    }
     //    /**
     //     * @return Animal[] Returns an array of Animal objects
     //     */
